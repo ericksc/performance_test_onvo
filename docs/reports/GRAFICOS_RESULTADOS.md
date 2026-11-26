@@ -1,4 +1,4 @@
-# Gráficos de Resultados - Pruebas de Rendimiento ONVO Pay
+﻿# Gráficos de Resultados - Pruebas de Rendimiento ONVO Pay
 
 **Fecha:** 25 de Noviembre de 2026  
 **Hora:** 13:40 UTC  
@@ -15,6 +15,8 @@ Se han generado **4 gráficos principales** que visualizan los resultados de las
 ## Gráfico 1: Resultados de Criterios de Aceptación
 
 **Archivo:** `graficos/01_resultados_criterios.png`
+
+![01_resultados_criterios.png](../../graficos/01_resultados_criterios.png)
 
 ### Descripción
 Gráfico de barras horizontales mostrando el veredicto PASS/FAIL de cada criterio.
@@ -39,6 +41,8 @@ TOTAL: 2/5 PASS (40%)
 ## Gráfico 2: Comparativa de Latencias (CT-01 vs CT-02)
 
 **Archivo:** `graficos/02_latencias_ct01_ct02.png`
+
+![02_latencias_ct01_ct02.png](../../graficos/02_latencias_ct01_ct02.png)
 
 ### Descripción
 Dos gráficos de barras lado a lado comparando latencias de los dos endpoints principales.
@@ -86,6 +90,8 @@ Diferencia: 559 ms (3x más lento)
 ## Gráfico 3: Degradación bajo Concurrencia (CT-04)
 
 **Archivo:** `graficos/03_degradacion_ct04.png`
+
+![03_degradacion_ct04.png](../../graficos/03_degradacion_ct04.png)
 
 ### Descripción
 Dos gráficos comparando latencia BASELINE vs BAJO CARGA (10 usuarios virtuales).
@@ -149,6 +155,8 @@ Esto confirma un problema arquitectónico específico en el endpoint de consulta
 ## Gráfico 4: Variabilidad en Repetibilidad (CT-05)
 
 **Archivo:** `graficos/04_varianza_ct05.png`
+
+![04_varianza_ct05.png](../../graficos/04_varianza_ct05.png)
 
 ### Descripción
 Dos gráficos de líneas mostrando latencias en 3 ejecuciones sucesivas (con 300s intervalo).

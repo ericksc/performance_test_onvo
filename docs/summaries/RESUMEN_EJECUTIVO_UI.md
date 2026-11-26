@@ -1,4 +1,4 @@
-# Resumen Ejecutivo - Capturas del UI de Locust
+﻿# Resumen Ejecutivo - Capturas del UI de Locust
 
 **Fecha:** 25 de Noviembre de 2026  
 **Hora:** 13:40 UTC  
@@ -9,7 +9,7 @@
 ## 📊 Capturas Visuales del UI de Locust
 
 ### 1. Pantalla de Inicio - Formulario de Configuración
-![Locust UI - Start Screen](locust-ui-start.png)
+_(Locust UI - Start Screen: captura no incluida)_
 
 **Estado:** Servidor Locust listo y escuchando en http://localhost:8089  
 **Configuración Visible:**
@@ -23,7 +23,7 @@
 ---
 
 ### 2. Gráficos en Tiempo Real - Response Times y Usuarios
-![Locust UI - Charts](locust-ui-charts.png)
+_(Locust UI - Charts: captura no incluida)_
 
 **Métricas Capturadas:**
 
@@ -45,7 +45,7 @@
 ---
 
 ### 3. Tabla de Estadísticas Detalladas
-![Locust UI - Statistics Table](locust-ui-stats.png)
+_(Locust UI - Statistics Table: captura no incluida)_
 
 **Datos Visibles:**
 

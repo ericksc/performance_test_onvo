@@ -1,4 +1,4 @@
-# 📊 ENTREGA FINAL COMPLETA - Pruebas de Rendimiento ONVO Pay
+﻿# 📊 ENTREGA FINAL COMPLETA - Pruebas de Rendimiento ONVO Pay
 
 **Fecha:** 25 de Noviembre de 2026  
 **Hora:** 13:40 UTC  
@@ -44,25 +44,25 @@ La ejecución completa de la suite de pruebas de rendimiento (CT-01 a CT-05) ha 
 **4 gráficos principales generados en carpeta `graficos/`:**
 
 #### Gráfico 1: Resultados de Criterios
-![Resultados](C:/work/poc_onvo/graficos/01_resultados_criterios.png)
+![Resultados](../../graficos/01_resultados_criterios.png)
 - **Muestra:** 2 PASS (verde) | 3 FAIL (rojo)
 - **Insight:** 40% aprobación total
 - **Acción:** Resolver 3 criterios FAIL
 
 #### Gráfico 2: Comparativa de Latencias
-![Latencias](C:/work/poc_onvo/graficos/02_latencias_ct01_ct02.png)
+![Latencias](../../graficos/02_latencias_ct01_ct02.png)
 - **Muestra:** GET falla límites | POST los cumple
 - **Insight:** POST es 2.7x más rápido
 - **Acción:** Investigar diferencia arquitectónica
 
 #### Gráfico 3: Degradación bajo Carga ⚠️ CRÍTICO
-![Degradacion](C:/work/poc_onvo/graficos/03_degradacion_ct04.png)
+![Degradacion](../../graficos/03_degradacion_ct04.png)
 - **Muestra:** GET degrada 400% | POST degrada 47%
 - **Insight:** GET colapsa bajo 10 usuarios
 - **Acción:** Inmediata - optimizar índices DB
 
 #### Gráfico 4: Variabilidad
-![Varianza](C:/work/poc_onvo/graficos/04_varianza_ct05.png)
+![Varianza](../../graficos/04_varianza_ct05.png)
 - **Muestra:** GET varia 13.4% | POST varia 21.3%
 - **Insight:** POST necesita warmup
 - **Acción:** Implementar warmup en startup
@@ -249,8 +249,8 @@ C:\work\poc_onvo\
 - [REPORTE_EJECUCION_COMPLETA_20261125.md](C:/work/poc_onvo/REPORTE_EJECUCION_COMPLETA_20261125.md) - 20 minutos
 
 **Visualización:**
-- Gráfico 1: Resultados (C:/work/poc_onvo/graficos/01_resultados_criterios.png)
-- Gráfico 3: Degradación crítica (C:/work/poc_onvo/graficos/03_degradacion_ct04.png)
+- Gráfico 1: Resultados (../../graficos/01_resultados_criterios.png)
+- Gráfico 3: Degradación crítica (../../graficos/03_degradacion_ct04.png)
 
 **Datos:**
 - JSON: `test_results_BASELINE_20261125_133711.json`
