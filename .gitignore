@@ -1,4 +1,4 @@
-# Secretos y configuración local
+﻿# Secretos y configuraciÃ³n local
 .env
 .env.local
 
@@ -19,9 +19,11 @@ env/
 *.swo
 
 # Reportes de Locust
-locust/reportes/
+# locust/reportes/ is tracked
 *.html
+!locust/reportes/**/*.html
 *.csv
+!locust/reportes/**/*.csv
 
 # OS
 .DS_Store

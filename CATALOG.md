@@ -37,3 +37,6 @@
 
 ## Secretos
 `.env` estÃ¡ en `.gitignore`. Use `.env.example` como plantilla y defina `ONVO_TEST_SECRET_KEY` localmente.
+
+## Reporte Locust
+- `locust/reportes/` — corrida de latencia 20261125 (`reporte.html` + CSV de métricas)
