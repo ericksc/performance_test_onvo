@@ -1,0 +1,244 @@
+================================================================================
+NUEVA EJECUCIÓN COMPLETA - 25 DE NOVIEMBRE DE 2026, 13:08-13:37 UTC (28 min)
+================================================================================
+
+¡Hola! Aquí te muestro qué se ejecutó y dónde encontrar los resultados.
+
+================================================================================
+📊 RESULTADO GENERAL
+================================================================================
+
+STATUS: 🛑 NO RECOMENDADO PARA PRODUCCIÓN
+
+Criterios ejecutados: 5/5
+  ✅ CT-01: Tiempo de respuesta consultas       [FAIL - 85% sobre límite]
+  ✅ CT-02: Tiempo de respuesta creación        [PASS - 81% bajo límite]
+  ✅ CT-03: Estabilidad (p99/p50)               [PASS - 45% bajo límite]
+  ✅ CT-04: Concurrencia moderada               [FAIL - 400% sobre límite]
+  ✅ CT-05: Repetibilidad                       [FAIL - 0.3% sobre límite]
+
+Total: 2/5 PASS | 3/5 FAIL
+Tasa de aprobación: 40%
+
+
+================================================================================
+📁 ARCHIVOS IMPORTANTES - POR ORDEN DE LECTURA
+================================================================================
+
+1. RESUMEN_RAPIDO.md
+   └─ LEER PRIMERO (5 minutos)
+   └─ Estado general en 10 segundos
+   └─ Tabla de resultados
+   └─ Próximos pasos
+
+2. REPORTE_EJECUCION_COMPLETA_20261125.md ⭐ RECOMENDADO
+   └─ LEER SEGUNDO (15-20 minutos)
+   └─ Análisis completo de cada criterio
+   └─ Métricas detalladas
+   └─ Problemas identificados
+   └─ Recomendaciones accionables
+   └─ Hitos propuestos
+
+3. RESUMEN_EJECUTIVO_UI.md
+   └─ LEER TERCERO (10-15 minutos)
+   └─ Capturas visuales del UI de Locust
+   └─ Gráficos en tiempo real
+   └─ Correlación: Datos JSON vs Visualizaciones
+   └─ Opciones de mejora
+
+4. INDICE_COMPLETO_REPORTES.md
+   └─ CONSULTAR POR REFERENCIA
+   └─ Guía de navegación completa
+   └─ Instrucciones por rol (gerente, arquitecto, engineer, QA)
+   └─ Próxima ejecución
+
+
+================================================================================
+🔴 PROBLEMA CRÍTICO IDENTIFICADO
+================================================================================
+
+GET /v1/customers se colapsa bajo carga:
+
+BASELINE (200 solicitudes secuenciales):
+  p95 = 839 ms (límite: 800 ms) ⚠️ 5% SOBRE
+
+BAJO CONCURRENCIA (10 usuarios virtuales, 300 segundos):
+  p95 = 4190 ms (límite: 30% degradación) 🔴 400% PEOR
+
+ACCIÓN REQUERIDA: Optimizar índices de DB, implementar caché, revisar queries
+
+
+================================================================================
+📊 DATOS DISPONIBLES
+================================================================================
+
+JSON con métricas completas:
+  → test_results_BASELINE_20261125_133711.json
+
+Este archivo contiene:
+  • CT-01: Métricas de GET /v1/customers (200 req)
+  • CT-02: Métricas de POST /v1/payment-intents (200 req)
+  • CT-03: Validación p99/p50 ratio
+  • CT-04: Concurrencia (10 usuarios, 300s, 2293 req)
+  • CT-05: Repetibilidad (3 ejecuciones, 300s intervalo)
+
+Uso: Importar a Excel, Tableau, Grafana, o Python para análisis
+
+
+================================================================================
+🐍 CÓMO RE-EJECUTAR LAS PRUEBAS
+================================================================================
+
+Opción 1: Todas las pruebas sin confirmaciones interactivas
+  $ python run_all_tests_auto.py
+
+Opción 2: Usando CLI con opciones personalizadas
+  $ python run_performance_tests.py --all --requests 300 --users 15
+
+Opción 3: Solo criterios específicos
+  $ python run_performance_tests.py --ct-01
+  $ python run_performance_tests.py --ct-04 --users 20
+
+Opción 4: Con parámetros personalizados
+  $ python run_performance_tests.py --ct-01 --requests 500
+
+
+================================================================================
+🌐 LOCUST UI
+================================================================================
+
+El servidor de Locust está disponible para monitoreo en tiempo real:
+
+Inicio del servidor:
+  $ python locust/ui.py
+
+Acceso:
+  → http://localhost:8089
+
+Pantallas disponibles:
+  • Statistics: Tabla con métricas (Requests, Fails, Latencia, etc)
+  • Charts: Gráficos en tiempo real (Response Times, Users, Throughput)
+  • Failures: Listado de errores HTTP
+  • Exceptions: Excepciones de Python
+  • Current Ratio: Proporción de usuarios activos
+  • Download Data: Exportar resultados en CSV/JSON
+  • Logs: Registro de eventos
+
+
+================================================================================
+✅ LO QUE FUNCIONA BIEN
+================================================================================
+
+✅ POST /v1/payment-intents
+   • Latencia base excelente (p95: 280 ms vs límite 1500 ms)
+   • Degradación controlada bajo carga (47% vs límite 30%)
+   • 81-71% por debajo de límites
+
+✅ Disponibilidad del API
+   • 2700+ solicitudes sin errores (100% success rate)
+   • 0 timeouts
+   • 0 errores 5xx
+
+✅ Estabilidad base (CT-03)
+   • p99/p50 ratio de 1.45x (vs límite 3.0x)
+   • Distribución consistente de latencias
+
+
+================================================================================
+❌ LO QUE DEBE MEJORARSE
+================================================================================
+
+❌ GET /v1/customers
+   • Latencia base 85% por encima de límite (739ms vs 400ms)
+   • Degrada 400% bajo carga (vs límite 30%)
+   • Root cause: Índices DB, queries N+1, falta de caché
+
+❌ POST /v1/payment-intents - Variabilidad
+   • Varianza 21.3% en 3 ejecuciones (vs límite 20%)
+   • Apenas 0.3% por encima, pero consistente
+   • Posible causa: Falta de warmup, GC irregular
+
+❌ Escalabilidad
+   • Sistema aguanta carga pero con latencias inaceptables
+   • No soporta 10 usuarios sin degradación exponencial
+
+
+================================================================================
+📅 RECOMENDACIÓN DE PRÓXIMOS PASOS
+================================================================================
+
+INMEDIATO (Hoy):
+  [ ] Comunicar hallazgos a stakeholders
+  [ ] Programar sesión con backend team
+  [ ] Revisar query SQL de GET /v1/customers
+
+ESTA SEMANA:
+  [ ] Ejecutar EXPLAIN PLAN de la query
+  [ ] Identificar índices faltantes
+  [ ] Propuesta de optimización con estimaciones
+  [ ] Review de caché (Redis/Memcached)
+
+PRÓXIMAS 2 SEMANAS:
+  [ ] Implementar mejoras en DB
+  [ ] Re-ejecutar suite completa
+  [ ] Validar que CT-01 y CT-04 pasen
+
+ANTES DE PRODUCCIÓN:
+  [ ] Todos los criterios con estado PASS
+  [ ] Load testing en staging con 50% tráfico
+  [ ] Runbook de rollback preparado
+  [ ] Alertas de monitoreo configuradas
+
+
+================================================================================
+🎓 LECCIONES APRENDIDAS
+================================================================================
+
+1. GET es 2.7x MÁS LENTO que POST
+   → GET p95: 839ms vs POST p95: 280ms
+   → Implica problema específico en endpoint de consultas
+
+2. POST escala mejor bajo concurrencia
+   → GET degrada 400%, POST degrada 47%
+   → Arquitectura POST es más robusta
+
+3. Monitoreo en tiempo real es crucial
+   → UI de Locust muestra picos visualmente
+   → Facilita identificación rápida de issues
+
+4. Automatización + Visualización = Mejor diagnóstico
+   → Números JSON + gráficos de Locust = panorama completo
+
+
+================================================================================
+📞 INFORMACIÓN DE CONTACTO
+================================================================================
+
+Repositorio:   C:\work\poc_onvo
+Suite de Pruebas: Automation Framework v1.0
+Estándar usado: ISO/IEC 25010:2011 (Temporal Behavior)
+Versión: Completa con CT-01 a CT-05
+
+Próxima revisión: Después de implementar mejoras en CT-01
+
+
+================================================================================
+✨ CONCLUSIÓN
+================================================================================
+
+La ejecución completa de las 5 pruebas ha identificado un problema crítico
+en el endpoint GET /v1/customers que hace el sistema NO RECOMENDADO para
+producción.
+
+Sin embargo:
+  • POST /payment-intents funciona bien
+  • Sistema mantiene 100% de disponibilidad
+  • Problema es específico y solucionable
+
+Próximo paso: Optimizar índices de DB y re-ejecutar pruebas.
+
+
+================================================================================
+Generado: 2026-11-25 13:50 UTC
+Estado: Listo para distribución a stakeholders
+================================================================================

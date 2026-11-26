@@ -1,0 +1,202 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                 PRUEBAS DE RENDIMIENTO - ONVO PAY API                     ║
+║                                                                            ║
+║                              LEER PRIMERO                                 ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+📊 RESULTADO RÁPIDO (25-Nov-2026)
+────────────────────────────────────────────────────────────────────────────
+
+Criterios Pasados:  1/3  (33%)  ❌
+Resultado Final:    FALLOS DETECTADOS
+Tasa Éxito:        100% (sin errores HTTP)
+
+
+🎯 HALLAZGOS EN 30 SEGUNDOS
+────────────────────────────────────────────────────────────────────────────
+
+✅ BUENO:
+   • POST /v1/payment-intents funciona EXCELENTE
+     p95: 353ms (límite: 1500ms) → +76% de margen
+   
+   • 400 requests sin errores
+   
+   • Sin timeouts
+
+❌ PROBLEMA:
+   • GET /v1/customers es LENTO
+     p50: 766ms (límite: 400ms) → 92% sobre límite
+   
+   • Falta de estabilidad
+     Ratio: 4.59x (límite: 3.0x) → Posible saturación
+
+
+📄 DOCUMENTOS A LEER
+────────────────────────────────────────────────────────────────────────────
+
+OPCIÓN A: TÚ TIENES 5 MINUTOS
+   → Lee: EXECUTION_SUMMARY.txt
+   → Dale a tu manager: REPORTE_RESULTADOS_PRUEBAS.md
+
+OPCIÓN B: TÚ TIENES 15 MINUTOS
+   1. Lee: INDEX_REPORTES.md
+   2. Lee: RESUMEN_VISUAL_RESULTADOS.md
+   
+OPCIÓN C: NECESITAS DETALLES TÉCNICOS (30+ minutos)
+   1. Lee: REPORTE_RESULTADOS_PRUEBAS.md (completo)
+   2. Revisa: test_results_BASELINE_20261125_115449.json
+   3. Lee: TEST_DOCUMENTATION.md (si necesitas teoría)
+
+
+🔧 QUÉ HACER AHORA
+────────────────────────────────────────────────────────────────────────────
+
+INMEDIATO (Hoy):
+
+   1. REVISAR LOGS
+      • Logs del servidor ONVO Pay
+      • ¿Por qué GET /v1/customers es lento?
+      • ¿Hay colas o saturación?
+
+   2. VALIDAR BD
+      • ¿Indices en tabla customers?
+      • ¿Query está optimizada?
+
+   3. EJECUTAR MÁS PRUEBAS
+      
+      $ python run_performance_tests.py --ct-04
+      (CT-04: Concurrencia - 5 minutos)
+      
+      $ python run_performance_tests.py --ct-05
+      (CT-05: Repetibilidad - 15 minutos)
+
+
+📊 MÉTRICA CLAVE
+────────────────────────────────────────────────────────────────────────────
+
+                    MEDIDO      LÍMITE      ESTADO
+   
+   CT-01 p50:       766 ms      400 ms      ❌ 92% SOBRE
+   CT-01 p95:      1197 ms      800 ms      ❌ 50% SOBRE
+   CT-02 p95:       353 ms     1500 ms      ✅ 76% BAJO
+   CT-02 p99:       730 ms     2500 ms      ✅ 71% BAJO
+   CT-03 ratio:     4.59x       3.0x        ❌ 53% SOBRE
+
+
+💡 EN PALABRAS SIMPLES
+────────────────────────────────────────────────────────────────────────────
+
+CREAR un payment intent (POST):   RÁPIDO ✅  (2 décimas de segundo)
+LISTAR clientes (GET):             LENTO ❌  (tres cuartos de segundo)
+
+La diferencia es 4X.
+
+Esto sugiere:
+  • Base de datos lenta
+  • Red lenta (si es remota)
+  • Servidor ONVO saturado
+  • Índices sin optimizar
+
+
+🚀 PRÓXIMAS ACCIONES (Prioridad)
+────────────────────────────────────────────────────────────────────────────
+
+AHORA (5 minutos):
+  [ ] Revisar logs servidor
+  [ ] Validar indices BD
+  [ ] Medir ping/latencia red
+
+HOY (dentro de 1-2 horas):
+  [ ] Ejecutar CT-04 (Concurrencia)
+  [ ] Ejecutar CT-05 (Repetibilidad)
+
+ESTA SEMANA:
+  [ ] Optimizar GET /v1/customers
+  [ ] Implementar caché
+  [ ] Re-ejecutar pruebas
+
+
+📋 ESTRUCTURA DE CARPETA
+────────────────────────────────────────────────────────────────────────────
+
+c:\work\poc_onvo\
+
+REPORTES (5 archivos):
+  • REPORTE_RESULTADOS_PRUEBAS.md         ← Leer esto para detalles
+  • RESUMEN_VISUAL_RESULTADOS.md          ← Para gráficas
+  • INDEX_REPORTES.md                     ← Para guía
+  • test_results_BASELINE_20261125_115449.json ← Datos brutos
+  • EXECUTION_SUMMARY.txt                 ← Resumen rápido
+  • LEER_PRIMERO.txt                      ← Este archivo
+
+SCRIPTS (para ejecutar más pruebas):
+  • run_performance_tests.py
+  • test_onvo_performance.py
+  • configurar_clave.py
+
+DOCUMENTACIÓN (referencia):
+  • TEST_DOCUMENTATION.md
+  • PERFORMANCE_TESTS_README.md
+  • PRUEBAS_QUICKSTART.md
+  • CI_CD_INTEGRATION.md
+
+
+❓ PREGUNTAS FRECUENTES
+────────────────────────────────────────────────────────────────────────────
+
+P: ¿Qué significa "FAIL" en CT-01?
+R: La API es más lenta de lo esperado. p50 = 766ms (esperado: 400ms).
+   Posible causa: Índices BD, servidor lento, red lenta.
+
+P: ¿Por qué CT-02 "PASS"?
+R: La creación de intents es rápida (353ms). Mucho margen (1500ms límite).
+
+P: ¿Qué es "ratio 4.59x"?
+R: El 99 percentil es 4.59 veces más lento que la mediana.
+   Significa: hay mucha variabilidad. Normal es ≤3x.
+
+P: ¿Qué son CT-01 a CT-05?
+R: 5 criterios de prueba basados en ISO/IEC 25010:2011.
+   CT-01, CT-02, CT-03: Ya ejecutados ✓
+   CT-04, CT-05: Aún sin ejecutar
+
+P: ¿Qué debo hacer?
+R: Revisar logs, optimizar GET /v1/customers, ejecutar CT-04 y CT-05.
+
+
+📞 CONTACTOS POR ESCALACIÓN
+────────────────────────────────────────────────────────────────────────────
+
+Si la API es LENTA (CT-01 FAIL):
+  → Equipo Backend / DevOps
+  → Revisar logs servidor ONVO
+  → Validar BD índices
+
+Si hay MUCHOS ERRORES:
+  → Equipo SRE
+  → Revisar uptime/status página
+
+Si necesitas AYUDA CON PRUEBAS:
+  → Ver: PERFORMANCE_TESTS_README.md
+  → Ver: PRUEBAS_QUICKSTART.md
+
+
+✨ CONCLUSIÓN EN UNA LÍNEA
+────────────────────────────────────────────────────────────────────────────
+
+POST rápido ✅, GET lento ❌ → Revisar DB índices, net latencia, server load
+
+
+════════════════════════════════════════════════════════════════════════════════
+
+COMIENZA LEYENDO:  REPORTE_RESULTADOS_PRUEBAS.md
+O                  RESUMEN_VISUAL_RESULTADOS.md
+
+Tiempo: 15-20 minutos para entender todo.
+
+════════════════════════════════════════════════════════════════════════════════
+
+Versión: 1.0 | Fecha: 25-Nov-2026 | Estándar: ISO/IEC 25010:2011
